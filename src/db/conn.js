@@ -10,7 +10,7 @@
 // })
 const mongoose = require('mongoose')
 
-mongoose.connect("mongodb+srv://rajesh:rajehs@123@cluster0.qjvdc.mongodb.net/employeemanager?retryWrites=true&w=majority", () => {
+mongoose.connect("mongodb+srv://rajesh:rajesh@123@cluster0.qjvdc.mongodb.net/employeemanager?retryWrites=true&w=majority", () => {
         console.log('connected to mongodb');
     });
     
