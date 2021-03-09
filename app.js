@@ -32,7 +32,7 @@ const Employee = require("./src/models/employeeschema");
 require('./controllers/employeeController')
 require("./src/db/conn")
 // require('./src/db/db')
-const port = 5000
+const port = process.env.PORT || 5000
 
 var MongoClient = require('mongodb').MongoClient;
 
