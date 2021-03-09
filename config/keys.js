@@ -4,9 +4,11 @@ module.exports = {
         clientSecret: '4WaNtW-hNhHsca7SE-feq9TW'
     },
     mongodb:{
-        dbURI:'mongodb+srv://rajesh:rajesh@123@cluster0.qjvdc.mongodb.net/employeemanager?retryWrites=true&w=majority'
+        dbURI:'mongodb+srv://rajesh:rajesh@123@cluster0.esvp7.mongodb.net/employeemanager?retryWrites=true&w=majority'
     },
     session: {
         cookieKey: 'cookiesecretkey'
     }
 };
+
+// mongodb://localhost:27017/employees
