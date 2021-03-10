@@ -85,11 +85,11 @@ var employeeSchema = new mongoose.Schema({
     incometax : {
         type: Number,
         enum: [10, 20, 30],
-        required : true
+        required : false
     },
     providentfund : {
         type: Number,
-        required: true,
+        required: false,
         validate(value){
             if(validator.isLength(value)<=4){
                 throw new Error("CHeck the number of digits entered")

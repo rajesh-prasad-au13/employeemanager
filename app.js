@@ -286,6 +286,8 @@ app.post('/signup', async (req,res) => {
 //     }
 // })
 
+const User = require('./cloudinary_image_upload/routes/user');
+app.use('/cloudinary', User);
 
 app.listen(port, () => {
   console.log(`Server running at ${port}`) //5000
