@@ -30,8 +30,9 @@ const Employee = require("./src/models/employeeschema");
 // const employeeGoogle= require("./src/models/employeeGoogleSigninSchema");
 
 require('./controllers/employeeController')
-require("./src/db/conn")
-// require('./src/db/db')
+const connect = require("./src/db/conn")
+connect()
+
 const port = process.env.PORT || 5000
 
 var MongoClient = require('mongodb').MongoClient;
@@ -82,7 +83,7 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
     console.log(req.body)
-    var url = "mongodb://localhost:27017/";
+    var url = "mongodb+srv://rajesh:rajesh@123@cluster0.esvp7.mongodb.net/employeemanager?retryWrites=true&w=majority";
     MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("employees");
@@ -117,10 +118,10 @@ app.get('/login', (req, res) => {
 app.post('/login',(req,res) => {
     console.log(req.body)
     console.log(req.header.token)
-    var url = "mongodb://localhost:27017/";
+    var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
     MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("employees");
+    var dbo = db.db("employee");
     dbo.collection("admins").findOne({}, async function(err, result) {
         if (err) throw err;
 
