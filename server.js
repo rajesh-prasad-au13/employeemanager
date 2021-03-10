@@ -25,3 +25,47 @@
 // app.listen(5000,()=>{
 //     console.log("Connected to http://localhost:5000")
 // })
+
+
+
+
+
+// passport.use (
+//     new GoogleStrategy({
+//     clientID: keys.googleClientID,
+//     clientSecret: keys.googleClientSecret,
+//     callbackURL: '/auth/google/callback',
+//     proxy: true
+//     },
+//     async (accessToken, refreshToken, profile, done) => {
+//          const existingUser = await User.findOne({googleID: profile.id});
+
+//         if(!existingUser) {
+//             const user = await User.create({googleID: profile.id}).save()
+//             return done(null, user)
+//         }
+
+//         done(null, existingUser)
+//     })
+
+
+//     passport.use (
+//         new GoogleStrategy({
+//         clientID: keys.googleClientID,
+//         clientSecret: keys.googleClientSecret,
+//         callbackURL: '/auth/google/callback',
+//         proxy: true
+//         },
+//         async (accessToken, refreshToken, profile, done) => {
+//              const existingUser = await User.findOne({googleID: profile.id});
+    
+//             if(!existingUser) {
+//                 const user = await User.create({googleID: profile.id}).save()
+//                 return done(null, user)
+//             }
+    
+//             done(null, existingUser)
+    
+    
+//         })
+//     )    
