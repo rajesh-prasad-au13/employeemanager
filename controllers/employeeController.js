@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const cloudinary = require("../utils/cloudinary");
-const upload = require("../utils/multer");
-const Employee = require("../src/models/employeeschema");
+const cloudinary = require("../src/models/utils/cloudinary");
+const upload = require("../src/models/utils/multer");
+const Employee = require("../src/models/schema/employeeschema");
 
 
 router.get('/', (req, res) => {

@@ -1,33 +1,28 @@
-const express = require("express");
-const app = express();
-const cookieSession = require('cookie-session');
-const passport = require('passport');
-const authRoutes = require('./routes/auth-routes');
-const profileRoutes = require('./routes/profile-routes');
-// const passportSetup = require('./config/passport-setup');
-// const mongoose = require('mongoose');
-const keys = require('./config/keys');
+const express = require("express")
+const app = express()
+const cookieSession = require('cookie-session')
+const bodyparser = require('body-parser')
+const passport = require('passport')
+const authRoutes = require('./controllers/auth-routes')
+const profileRoutes = require('./controllers/profile-routes')
+const keys = require('./src/models/config/keys')
 const path = require('path')
 const employeeRouter = require('./controllers/employeeController')
-// const exphbs = require('express-handlebars')
 const hbs = require('hbs')
-const bodyparser = require('body-parser')
-const mySchema = require("./src/models/adminschema")
+const mySchema = require("./src/models/schema/adminschema")
 
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
-// const { check, validationResult } = require('express-validator')
+const jwt = require('jsonwebtoken')
 
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv")
+dotenv.config()
 
-const auth = require('./routes/authLogin')
+const auth = require('./controllers/authLogin')
 
 const router = express.Router()
-const cloudinary = require("./utils/cloudinary");
-const upload = require("./utils/multer");
-const Employee = require("./src/models/employeeschema");
-// const employeeGoogle= require("./src/models/employeeGoogleSigninSchema");
+const cloudinary = require("./src/models/utils/cloudinary")
+const upload = require("./src/models/utils/multer")
+const Employee = require("./src/models/schema/employeeschema")
 
 require('./controllers/employeeController')
 const connect = require("./src/db/conn")
@@ -36,17 +31,14 @@ connect()
 const port = process.env.PORT || 5000
 
 var MongoClient = require('mongodb').MongoClient;
-const { get, post } = require("./routes/auth-routes");
-
-// let users = []
-
+// const { get, post } = require("./routes/auth-routes");
 let admin = []
 
 const static_path = path.join(__dirname, "./public")
 const template_path = path.join(__dirname, "./templates/views")
-const partials_path = path.join(__dirname, "./templates/partials")
-hbs.registerPartials(partials_path)
 
+// const partials_path = path.join(__dirname, "./templates/partials")
+// hbs.registerPartials(partials_path)
 // app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'mainLayout', layoutsDir: __dirname + '/views/layouts/' }));
 
 app.use(express.static(static_path))
@@ -188,7 +180,7 @@ app.post('/signup', async (req, res) => {
     }
 })
 
-app.get('/alladmin', (req, res) => {
+app.get('/alladmin', auth, (req, res) => {
     console.log("here 1 ")
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
     MongoClient.connect(url, function (err, db) {
@@ -203,7 +195,7 @@ app.get('/alladmin', (req, res) => {
     });
 })
 
-app.get('/allusers', (req, res) => {
+app.get('/allusers', auth, (req, res) => {
     console.log("here 1 ")
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
     MongoClient.connect(url, function (err, db) {
@@ -217,7 +209,7 @@ app.get('/allusers', (req, res) => {
     });
 });
 
-app.get('/alladmin/:email',(req,res) => {
+app.get('/alladmin/:email',auth,(req,res) => {
     console.log(req.params.email)
     console.log("here 1 ")
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
