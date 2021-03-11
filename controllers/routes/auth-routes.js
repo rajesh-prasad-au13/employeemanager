@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-require('../src/models/config/passport-setup')
+require('../../src/models/config/passport-setup')
 
 // auth login
 router.get('/login', (req, res) => {
