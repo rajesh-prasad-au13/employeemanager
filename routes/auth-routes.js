@@ -26,3 +26,26 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 });
 
 module.exports = router;
+
+
+// router.get('/login', (req, res) => {
+//     console.log(req.user)
+//     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
+//     MongoClient.connect(url, async function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("employee");
+//         let anyuser = await dbo.collection('users').findOne({useremail:req.user}) 
+//         console.log('abc',anyuser)
+//         if (anyuser == null){
+//             res.json({
+//                 message:"No such user exists"
+//             })
+//         }
+//         else{
+//             res.json({
+//                 message:"WElcome to individual user page"
+//             })
+//         }
+//     });
+//     // res.render('login', { user: req.user });
+// });
