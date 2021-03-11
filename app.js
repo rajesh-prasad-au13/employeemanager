@@ -31,15 +31,10 @@ connect()
 const port = process.env.PORT || 5000
 
 var MongoClient = require('mongodb').MongoClient;
-// const { get, post } = require("./routes/auth-routes");
 let admin = []
 
 const static_path = path.join(__dirname, "./public")
 const template_path = path.join(__dirname, "./templates/views")
-
-// const partials_path = path.join(__dirname, "./templates/partials")
-// hbs.registerPartials(partials_path)
-// app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'mainLayout', layoutsDir: __dirname + '/views/layouts/' }));
 
 app.use(express.static(static_path))
 
@@ -70,7 +65,6 @@ app.use('/profile', profileRoutes);
 
 // create home route
 app.get('/', (req, res) => {
-    // console.log(req)
     res.render('home.ejs', { user: req.user });
 });
 
@@ -243,125 +237,10 @@ app.get('/allusers/:email',(req,res) => {
     });
 })
 
+app.get('/logout',(req,res)=>{
+    res.redirect('/homepage')
+})
+
 app.listen(port, () => {
     console.log(`Server running at ${port}`) //5000
 })
-
-
-// app.get('/login', (req, res) => {
-//     res.render('login.hbs');
-// });
-
-
-// app.post('/login', (req, res) => {
-//     console.log(req.body)
-//     console.log(req.header.token)
-//     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("employee");
-//         dbo.collection("admins").findOne({}, async function (err, result) {
-//             if (err) throw err;
-
-//             console.log(req.body.password, result.password)
-//             if (result) {
-//                 const isMatch = await bcrypt.compare(req.body.password, result.password);
-//                 if (isMatch) {
-//                     jwt.sign(
-//                         { result: { email: result.email } },
-//                         'jwt_secret',
-//                         (err, token) => {
-//                             if (err) throw err;
-//                             console.log('token', token)
-//                             req.header.token = token
-//                             console.log('heree')
-//                             res.status(200).json({
-//                                 data: { token },
-//                                 // errors:[],
-//                                 message: 'Loggin success!!'
-//                             })
-//                         }
-//                     )
-//                 }
-//                 else {
-//                     res.status(404).json({
-//                         data: {},
-//                         message: "Password mismatch"
-//                     })
-//                 }
-//                 db.close();
-//             }
-//             else {
-//                 res.status(204).json({
-//                     data: {},
-//                     // errors:[],
-//                     message: 'No such User'
-//                 })
-//                 db.close();
-//             }
-//         });
-//     });
-//     // res.end()
-// });
-
-
-
-
-
-// app.get('/admins',(req,res) => {
-//     console.log(admin)
-//     res.json(admin)
-// })
-
-// app.post('/admins', async (req,res) => {
-//     console.log('heree')
-//     try{
-//         if(req.body.password == req.body.confirm_password){
-//             const registerEmployee = new mySchema({
-//                 firstname : req.body.firstname,
-//                 lastname:req.body.lastname,
-//                 email:req.body.email,
-//                 password:req.body.password,
-//                 confirm_password:req.body.confirm_password
-//             })
-//             const result = await registerEmployee.save()
-//             console.log(result,registerEmployee,req.body.firstname)
-//             res.status(201).render('index.hbs')
-//         }
-//         else{
-//             res.send("Password Mismatched")
-//         }
-//     }
-//     catch(error){
-//         res.status(400).send(error)
-//     }
-// })
-
-
-
-
-
-
-// app.get('/home', (req, res) => {
-//     console.log(req.body)
-//     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("employees");
-//         dbo.collection("registers").findOne({}, function (err, result) {
-//             if (err) throw err;
-//             console.log(result)
-
-//             //object to array
-//             const propertyNames = Object.values(result);
-//             console.log(propertyNames);
-//             const data = { propertyNames }
-
-//             console.log(data)
-//             res.render('home.hbs', data)
-
-//             db.close()
-//         });
-//     });
-//     // res.end() 
-// });
