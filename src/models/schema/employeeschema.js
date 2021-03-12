@@ -1,20 +1,21 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+
 var employeeSchema = new mongoose.Schema({
     firstname : {
         type:String,
-        required:[true,"Enter the firstname"]
+        required:[false,"Enter the firstname"]
     },
     lastname : String,
     email : {
         type: String,
-        required: true,
+        required: false,
         unique:true,
-        validate(value){
-            if(!validator.isEmail(value)) {
-                throw new Error ("Email is inValid")
-            }
-        }
+        // validate(value){
+        //     if(!validator.isEmail(value)) {
+        //         throw new Error ("Email is inValid")
+        //     }
+        // }
 
         // validate(value){
         //     if(value<0){
@@ -24,77 +25,77 @@ var employeeSchema = new mongoose.Schema({
     },
     phone : {
         type: String,
-        required:true,
-        validate(value){
-            if(!validator.isMobilePhone(value)) {
-                throw new Error("Mobile number is inValid")
-            }
-        }
+        required:false,
+        // validate(value){
+        //     if(!validator.isMobilePhone(value)) {
+        //         throw new Error("Mobile number is inValid")
+        //     }
+        // }
     },
     address: String,
     pancard : {
         type: String,
-        required: [true,"enter the pancard number"]
+        required: [false,"enter the pancard number"]
     },
     cloudinary_id: String,
     basicsalary : {
         type: Number,
-        required: true,
-            validate(value){
-                if(validator.isLength(value)<=6){
-                    throw new Error("CHeck the number of digits entered")
-                }
-            }
+        required: false,
+            // validate(value){
+            //     if(validator.isLength(value)<=6){
+            //         throw new Error("CHeck the number of digits entered")
+            //     }
+            // }
     },
     da: {
         type: Number,
-        required: true,
-        validate(value){
-            if(validator.isLength(value)<=4){
-                throw new Error("CHeck the number of digits entered")
-            }
-        }
+        required: false,
+        // validate(value){
+        //     if(validator.isLength(value)<=4){
+        //         throw new Error("CHeck the number of digits entered")
+        //     }
+        // }
     },
     hra : {
         type: Number,
-        required: true,
-        validate(value){
-            if(validator.isLength(value)<=4){
-                throw new Error("CHeck the number of digits entered")
-            }
-        }
+        required: false,
+        // validate(value){
+        //     if(validator.isLength(value)<=4){
+        //         throw new Error("CHeck the number of digits entered")
+        //     }
+        // }
     },
     medical : {
         type : Number,
-        required: true,
-        validate(value){
-            if(validator.isLength(value)<=4){
-                throw new Error("CHeck the number of digits entered")
-            }
-        }
+        required: false,
+        // validate(value){
+        //     if(validator.isLength(value)<=4){
+        //         throw new Error("CHeck the number of digits entered")
+        //     }
+        // }
     },
     proftax : {
         type: Number,
-        required: true,
-        validate(value){
-            if(validator.isLength(value)<=3){
-                throw new Error("CHeck the number of digits entered")
-            }
-        }
+        required: false,
+        // validate(value){
+        //     if(validator.isLength(value)<=3){
+        //         throw new Error("CHeck the number of digits entered")
+        //     }
+        // }
     },
     incometax : {
         type: Number,
         enum: [10, 20, 30],
-        required : true
+        required : false
     },
     providentfund : {
         type: Number,
-        required: true,
-        validate(value){
-            if(validator.isLength(value)<=4){
-                throw new Error("CHeck the number of digits entered")
-            }
-        }
+        required: false,
+        // validate(value){
+        //     if(validator.isLength(value)<=4){
+        //         throw new Error("CHeck the number of digits entered")
+        //     }
+        // }
     },
     
 })
