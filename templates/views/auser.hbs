@@ -7,10 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        img{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 
 <body>
+    <a href="/logout"><button type="button" class="btn btn-info">Logout</button></a>
     <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Pancard</th>
+                <th>Profile</th>
+                <th>Basic_Salary</th>
+            </tr>
+        </thead>
         <tbody>
             <td>{{db.firstname}}</td>
             <td>{{db.lastname}}</td>
@@ -18,7 +37,8 @@
             <td>{{db.phone}}</td>
             <td>{{db.address}}</td>
             <td>{{db.pancard}}</td>
-            <td>{{db.medical}}</td>
+            <td><img src={{db.cloudinary_id}} alt="profileImg"></td>
+            <td>{{db.basicsalary}}</td>
         </tbody>
     </table>
 </body>

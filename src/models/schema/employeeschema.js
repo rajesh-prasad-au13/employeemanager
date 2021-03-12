@@ -1,87 +1,56 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
+
+
 var employeeSchema = new mongoose.Schema({
     firstname : {
         type:String,
-        required:[false,"Enter the firstname"]
+        required:true
     },
     lastname : String,
     email : {
         type: String,
-        required: false,
+        required: true,
         unique:true,
-        // validate(value){
-        //     if(!validator.isEmail(value)) {
-        //         throw new Error ("Email is inValid")
-        //     }
-        // }
-
-        // validate(value){
-        //     if(value<0){
-        //         throw new Error("Check the email you entered")
-        //     }
-        // }
+    },
+    password:{
+        type:String,
+        default:"admin"
     },
     phone : {
         type: String,
-        required:false,
-        // validate(value){
-        //     if(!validator.isMobilePhone(value)) {
-        //         throw new Error("Mobile number is inValid")
-        //     }
-        // }
+        required:false
     },
     address: String,
     pancard : {
         type: String,
-        required: [false,"enter the pancard number"]
+        required: false
     },
     cloudinary_id: String,
     basicsalary : {
         type: Number,
-        required: false,
-            // validate(value){
-            //     if(validator.isLength(value)<=6){
-            //         throw new Error("CHeck the number of digits entered")
-            //     }
-            // }
+        required: true
+    },
+    grossSalary :{
+        type:Number,
+        require:false
     },
     da: {
         type: Number,
-        required: false,
-        // validate(value){
-        //     if(validator.isLength(value)<=4){
-        //         throw new Error("CHeck the number of digits entered")
-        //     }
-        // }
+        required: false
     },
     hra : {
         type: Number,
-        required: false,
-        // validate(value){
-        //     if(validator.isLength(value)<=4){
-        //         throw new Error("CHeck the number of digits entered")
-        //     }
-        // }
+        required: false
     },
     medical : {
         type : Number,
-        required: false,
-        // validate(value){
-        //     if(validator.isLength(value)<=4){
-        //         throw new Error("CHeck the number of digits entered")
-        //     }
-        // }
+        required: false
     },
     proftax : {
         type: Number,
-        required: false,
-        // validate(value){
-        //     if(validator.isLength(value)<=3){
-        //         throw new Error("CHeck the number of digits entered")
-        //     }
-        // }
+        required: false
     },
     incometax : {
         type: Number,
@@ -91,12 +60,7 @@ var employeeSchema = new mongoose.Schema({
     providentfund : {
         type: Number,
         required: false,
-        // validate(value){
-        //     if(validator.isLength(value)<=4){
-        //         throw new Error("CHeck the number of digits entered")
-        //     }
-        // }
-    },
+    }
     
 })
 

@@ -14,20 +14,24 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
                 <th>Email</th>
+                <th>Phone</th>
+                <th>BasicSalary</th>
             </tr>
         </thead>
 
         <tbody>
             <%for(i=0;i<data.length;i++){%>
                 <tr>
-                    <td><%=data[i].googleId%></td>
-                    <td><%=data[i].useremail%></td>
-                    <td><%=data[i].username%></td>
+                    <td><%=data[i].firstname%></td>
+                    <td><%=data[i].lastname%></td>
+                    <td><%=data[i].email%></td>
+                    <td><%=data[i].phone%></td>
+                    <td><%=data[i].basicsalary%></td>
                     <td>
-                        <a href="http://localhost:5000/login">
+                        <a href="/allusers/<%=data[i].email%>">
                             <button type="button" class="edit btn btn-info" data-toggle="modal" data-target="#myedit" id=<%=data[i]._id%>>
                                 <span class="glyphicon glyphicon-edit"></span>
                             </button>

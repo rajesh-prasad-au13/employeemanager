@@ -7,7 +7,7 @@ const authRoutes = require('./controllers/auth-routes')
 const profileRoutes = require('./controllers/profile-routes')
 const keys = require('./src/models/config/keys')
 const path = require('path')
-const employeeRouter = require('./controllers/employeeController')
+// const employeeRouter = require('./controllers/employeeController')
 const hbs = require('hbs')
 const mySchema = require("./src/models/schema/adminschema")
 
@@ -35,7 +35,6 @@ let admin = []
 
 const static_path = path.join(__dirname, "./public")
 const template_path = path.join(__dirname, "./templates/views")
-// const Employee = require("./src/models/schema/employeeschema");
 
 app.use(express.static(static_path))
 
@@ -43,18 +42,14 @@ app.set("view engine", "hbs")
 app.set('view engine', 'ejs');
 app.set("views", template_path)
 
-// app.use('/employee', employeeRouter)
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
-// Route
-app.use('/user', require('./cloudinary_image_upload/routes/user'))
 
 // set up session cookies
 app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [keys.session.cookieKey]
 }));
-
 
 // initialize passport
 app.use(passport.initialize());
@@ -70,50 +65,6 @@ cloudinary.config({
     api_key: '619386553959379',
     api_secret: 'Kn2pvV1Y04DWuPi46BmBOqatNNw'
   });
-
-app.get('/employee', (req, res) => {
-    res.render("add-edit-employee.hbs", {
-        viewTitle: "Insert Employee"
-    });
-});
-
-app.post('/employee',(req,res) => {
-    const file = req.files.image
-    console.log(req.files.image)
-    cloudinary.uploader.upload(file.tempFilePath, async (err,result)=>{
-        console.log('err',err)
-        console.log('result',result)
-        try {
-            let employee = new Employee({
-              firstname: req.body.firstname || '',
-              lastname: req.body.lastname || '',
-              email: req.body.email || '',
-              phone: req.body.phone || '',
-              address: req.body.address || '',
-              pancard: req.body.pancard || '',
-              cloudinary_id: result.secure_url || '',
-              basicsalary: req.body.basicsalary || '',
-              da: req.body.da || '',
-              hra: req.body.hra || '',
-              medical: req.body.medical || '',
-              proftax: req.body.proftax || '',
-              incometax: req.body.incometax || '',
-              providentfund: req.body.providentfund || ''
-            });
-        
-            // Save user
-            const ans = await employee.save();
-            console.log('ans',ans)
-            res.end()
-          } 
-          catch (err) {
-            console.log(err);
-            res.end()
-          }
-
-    })
-
-})
 
 
 // set up routes
@@ -131,14 +82,14 @@ app.get('/homepage',(req,res)=>{
 
 app.post('/homepage',(req,res) => {
     let anyuser = req.body.Email
-    console.log(req.body.Email)
+    console.log('req.body',req.body)
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
     MongoClient.connect(url, async function (err, db) {
         if (err) throw err;
         var dbo = db.db("employee");
         let anyuser = await dbo.collection('admins').findOne({email:req.body.Email}) 
         if(anyuser == null){
-            anyuser = await dbo.collection('users').findOne({useremail:req.body.Email}) 
+            anyuser = await dbo.collection('news').findOne({email:req.body.Email}) 
             console.log('abc',anyuser)
             if (anyuser == null){
                 res.json({
@@ -146,9 +97,11 @@ app.post('/homepage',(req,res) => {
                 })
             }
             else{
-                res.json({
-                    message:"WElcome to indivi user page"
-                })
+                res.redirect(`/allusers/${req.body.Email}`)
+                // res.json({
+                //     message:"Welcome Employee",
+                //     to_see_details:"Goto /:yourEmail"
+                // })
             }
         }
         else {
@@ -246,6 +199,57 @@ app.get('/alladmin', auth, (req, res) => {
     });
 })
 
+app.get('/employee', auth, (req, res) => {
+    res.render("add-edit-employee.hbs", {
+        viewTitle: "Insert Employee"
+    });
+});
+
+app.post('/employee',auth,(req,res) => {
+    const file = req.files.image
+    console.log(req.files.image)
+    
+    
+    cloudinary.uploader.upload(file.tempFilePath, async (err,result)=>{
+        console.log('err',err)
+        console.log('result',result)
+        try {
+            let employee = new Employee({
+              firstname: req.body.firstname || '',
+              lastname: req.body.lastname || '',
+              email: req.body.email || '',
+              phone: req.body.phone || '',
+              address: req.body.address || '',
+              pancard: req.body.pancard || '',
+              cloudinary_id: result.secure_url || '',
+              basicsalary: req.body.basicsalary || '',
+            //   grossSalary: grossSalary() || '',
+              da: req.body.da || '',
+              hra: req.body.hra || '',
+              medical: req.body.medical || '',
+              proftax: req.body.proftax || '',
+              incometax: req.body.incometax || '',
+              providentfund: req.body.providentfund || '',
+            });
+        
+            // Save user
+            const ans = await employee.save();
+            console.log('ans',ans)
+            res.json({
+                message:"Employee Added"
+            })
+          } 
+          catch (err) {
+            console.log(err);
+            res.json({
+                message: "unable to add employee"
+            })
+          }
+
+    })
+
+})
+
 app.get('/allusers', auth, (req, res) => {
     console.log("here 1 ")
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
@@ -253,7 +257,7 @@ app.get('/allusers', auth, (req, res) => {
         console.log("here 2 ")
         if (err) throw err;
         var dbo = db.db("employee");
-        dbo.collection('users').find({}).toArray((err, db) => {
+        dbo.collection('news').find({}).toArray((err, db) => {
             console.log("Listing all Users ")
             res.render('showusers.ejs', { data: db })
         })
@@ -277,24 +281,41 @@ app.get('/alladmin/:email',auth,(req,res) => {
     });
 })
 
-app.get('/allusers/:email',(req,res) => {
+app.delete('/allusers/:email',auth,(req,res) => {
     console.log(req.params.email)
     console.log("here 1 ")
     var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
-    MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(url, async function (err, db) {
         console.log("here 2 ")
         if (err) throw err;
         var dbo = db.db("employee");
-        dbo.collection('users').findOne({email:req.params.email}, function(err, db) {
+        let user1 = await dbo.collection('users').deleteOne({useremail:req.params.email})
+        let user2 = await dbo.collection('news').deleteOne({email:req.params.email})
+        console.log(user1,user2)
+        res.json({user1,user2})       
+    });
+})
+
+app.get('/allusers/:email',(req,res) => {
+    // console.log('req.params',req.params)
+    // console.log("here 1 ")
+    var url = "mongodb+srv://rajesh:admin@cluster0.dzaoe.mongodb.net/employee?retryWrites=true&w=majority";
+    MongoClient.connect(url, function (err, db) {
+        // console.log("here 2 ")
+        if (err) throw err;
+        var dbo = db.db("employee");
+        dbo.collection('news').findOne({email:req.params.email}, function(err, db) {
             //return res.send(data)
             console.log("Listing One with Email ",db)
-
             res.render('auser.hbs', { db })
         })
     });
 })
 
 app.get('/logout',(req,res)=>{
+    req.header.token = ''
+    req.logout()
+    console.log("Logging OUT")
     res.redirect('/homepage')
 })
 
