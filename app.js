@@ -43,7 +43,12 @@ app.set("view engine", "hbs")
 app.set('view engine', 'ejs');
 app.set("views", template_path)
 
-// app.use('/employee', employeeRouter)
+
+var fileupload = require('express-fileupload')
+app.use(fileupload({useTempFiles:true}))
+
+app.use('/employee', employeeRouter)
+
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
 // Route
@@ -60,60 +65,18 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const cloudinary = require("cloudinary").v2;
-var fileupload = require('express-fileupload')
-app.use(fileupload({useTempFiles:true}))
+// const cloudinary = require("cloudinary").v2;
 
 
-cloudinary.config({
-    cloud_name: 'dwaw3z3ex',
-    api_key: '619386553959379',
-    api_secret: 'Kn2pvV1Y04DWuPi46BmBOqatNNw'
-  });
 
-app.get('/employee', (req, res) => {
-    res.render("add-edit-employee.hbs", {
-        viewTitle: "Insert Employee"
-    });
-});
 
-app.post('/employee',(req,res) => {
-    const file = req.files.image
-    console.log(req.files.image)
-    cloudinary.uploader.upload(file.tempFilePath, async (err,result)=>{
-        console.log('err',err)
-        console.log('result',result)
-        try {
-            let employee = new Employee({
-              firstname: req.body.firstname || '',
-              lastname: req.body.lastname || '',
-              email: req.body.email || '',
-              phone: req.body.phone || '',
-              address: req.body.address || '',
-              pancard: req.body.pancard || '',
-              cloudinary_id: result.secure_url || '',
-              basicsalary: req.body.basicsalary || '',
-              da: req.body.da || '',
-              hra: req.body.hra || '',
-              medical: req.body.medical || '',
-              proftax: req.body.proftax || '',
-              incometax: req.body.incometax || '',
-              providentfund: req.body.providentfund || ''
-            });
-        
-            // Save user
-            const ans = await employee.save();
-            console.log('ans',ans)
-            res.end()
-          } 
-          catch (err) {
-            console.log(err);
-            res.end()
-          }
+// cloudinary.config({
+//     cloud_name: 'dwaw3z3ex',
+//     api_key: '619386553959379',
+//     api_secret: 'Kn2pvV1Y04DWuPi46BmBOqatNNw'
+//   });
 
-    })
 
-})
 
 
 // set up routes
